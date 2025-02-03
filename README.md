@@ -54,9 +54,11 @@ az aks enable-addons -n $aksName -g $rgName -a ingress-appgw --appgw-id $appgwId
 ```
 # Create vnet peerings
 aksVnetId=$(az network vnet show -n $aksVnetName -g $rgName -o tsv --query "id")
+# ensure the resource groupname and the vnetname of the appgateway is equal to the variable
 az network vnet peering create -n AppGWtoAKSVnetPeering -g $rgName --vnet-name $appgwVnetName --remote-vnet $aksVnetId --allow-vnet-access
 
 appGWVnetId=$(az network vnet show -n $appgwVnetName -g $rgName -o tsv --query "id")
+# ensure the resource groupname and the vnetname of the aks is equal to the variable
 az network vnet peering create -n AKStoAppGWVnetPeering -g $rgName --vnet-name $aksVnetName --remote-vnet $appGWVnetId --allow-vnet-access
 ```
 
