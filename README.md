@@ -22,7 +22,10 @@ export aksVnetName=dev-vnet
 
 ```
 
-```
+
+# Create the regource group
+az group create --name dev --location westeurope
+`
 # Create public ip
 az network public-ip create -n $pipName -g $rgName -l $location --allocation-method Static --sku Standard
 ```
@@ -43,7 +46,7 @@ az network application-gateway create -n $appgwName -l westeurope -g $rgName --s
 ```
 
 ```
-# Enable Application Gateway Ingress Controller on AKS
+# Enable Application Gateway Ingress Controller on AKS. The appgw and waf must be in the same region
 appgwId=$(az network application-gateway show -n $appgwName -g $rgName -o tsv --query "id")
 az aks enable-addons -n $aksName -g $rgName -a ingress-appgw --appgw-id $appgwId
 ```
